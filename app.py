@@ -1,6 +1,11 @@
 from flask import Flask, request, render_template, jsonify
+from test_model import Person
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
+
 
 app = Flask(__name__)
+engine = create_engine("sqlite:///test_db")
 
 
 @app.route("/")
@@ -49,3 +54,30 @@ def try_rest():
     print(name)
     response_json = {"response_json": request_json}
     return jsonify(response_json)
+
+
+@app.route("/person_search")
+def person_search():
+    return render_template("./person_search.html")
+
+
+@app.route("/person_result")
+def person_result():
+    search_size = request.args.get("search_size")
+    with Session(engine) as session:
+        persons = session.query(Person).filter(Person.size > search_size)
+    return render_template(
+        "./person_result.html", persons=persons, search_size=search_size
+    )
+
+
+@app.route("/try_html")
+def try_html():
+    return render_template("try_html.html")
+
+
+@app.route("/show_data", methods=["GET", "POST"])
+def show_data():
+    name = request.form.get("text")
+    print(name)
+    return render_template("try_html.html")
