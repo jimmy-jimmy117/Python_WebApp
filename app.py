@@ -1,11 +1,13 @@
 from flask import Flask, request, render_template, jsonify
-from test_model import Person
+from mysql_model import Person
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 
 app = Flask(__name__)
-engine = create_engine("sqlite:///test_db")
+engine = create_engine(
+    "mysql+pymysql://root:p%40ssw0rd1@mysqldb/test_mysql?charset=utf8mb4"
+)
 
 
 @app.route("/")
