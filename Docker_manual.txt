@@ -1,0 +1,11 @@
+docker build --tag webapp-docker .
+Dockerいめーじをビルドする
+
+docker images
+作成されたDockerイメージを確認する
+
+docker tag webapp-docker:latest webapp-docker:v1.0.0
+Fockerイメージにタグを付ける
+
+docker rmi webapp-docker:v1.0.0
+タグのついたDockerイメージを削除する
